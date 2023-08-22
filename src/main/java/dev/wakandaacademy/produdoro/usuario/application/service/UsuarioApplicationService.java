@@ -44,4 +44,10 @@ public class UsuarioApplicationService implements UsuarioService {
 	}
 
 
+	@Override
+	public void mudaStatusPausaCurta(String usuarioEmail, UUID idUsuario) {
+		
+	}
+
+
 }
