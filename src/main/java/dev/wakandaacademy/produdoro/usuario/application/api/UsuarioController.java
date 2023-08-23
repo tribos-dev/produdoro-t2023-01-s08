@@ -41,7 +41,8 @@ public class UsuarioController implements UsuarioAPI {
 	public void mudaStatusPausaCurta(String token, UUID idUsuario) {
 		log.info("[inicia] UsuarioController - mudaStatusPausaCurta");
 		log.info("[idUsuario] {}", idUsuario);
-		String usuarioEmail = tokenService.getUsuarioByBearerToken(token).orElseThrow(() -> APIException.build(HttpStatus.UNAUTHORIZED, token));
+		String usuarioEmail = tokenService.getUsuarioByBearerToken(token)
+				.orElseThrow(() -> APIException.build(HttpStatus.UNAUTHORIZED, token));
 		usuarioAppplicationService.mudaStatusPausaCurta(usuarioEmail, idUsuario);
 		log.info("[finaliza] UsuarioController - mudaStatusPausaCurta");
 	}
