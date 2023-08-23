@@ -44,7 +44,7 @@ public class UsuarioController implements UsuarioAPI {
 		log.info("[idUsuario] {}", idUsuario);
 		String usuario = tokenService.getUsuarioByBearerToken(token)
 				.orElseThrow(() -> APIException.build(HttpStatus.FORBIDDEN, "Token Inválido!"));
-		usuarioAppplicationService.pausaCurta(usuario, idUsuario);
+		usuarioAppplicationService.pausaLonga(usuario, idUsuario);
 		log.info("[finaliza] UsuarioController - pausaLonga");
 	}
 }
