@@ -21,8 +21,6 @@ public interface TarefaAPI {
     @ResponseStatus(code = HttpStatus.CREATED)
     TarefaIdResponse postNovaTarefa(@RequestBody @Valid TarefaRequest tarefaRequest);
 
-    //Teste de conflito
-
     @GetMapping("/{idTarefa}")
     @ResponseStatus(code = HttpStatus.OK)
     TarefaDetalhadoResponse detalhaTarefa(@RequestHeader(name = "Authorization",required = true) String token, 
