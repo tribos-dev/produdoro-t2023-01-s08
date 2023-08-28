@@ -44,9 +44,7 @@ public class TarefaApplicationService implements TarefaService {
     public List<Tarefa> buscaTarefaPorUsuario(String emailUsuario, UUID idUsuario) {
         log.info("[inicia] TarefaApplicationService - buscaTarefaPorUsuario");
         Usuario usuario = usuarioRepository.buscaUsuarioPorEmail(emailUsuario);
-        if(!idUsuario.equals(usuario.getIdUsuario())){
-            throw APIException.build(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
-        }
+        usuario.validaUsuario(idUsuario);
         List<Tarefa> tarefas = tarefaRepository.buscaTarefasPorUsuario(idUsuario);
         log.info("[finaliza] TarefaApplicationService - buscaTarefaPorUsuario");
         return tarefas;
