@@ -55,4 +55,14 @@ public class Tarefa {
 			throw APIException.build(HttpStatus.UNAUTHORIZED, "Usuário não é dono da Tarefa solicitada!");
 		}
 	}
+
+	public void ValidaUsuario(UUID idUsuario) {
+		if(!idUsuario.equals(this.getIdUsuario())) {
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Usuário não validado!");
+		}
+	}
+
+	public void setStatusAtivacao() {
+		this.statusAtivacao = StatusAtivacaoTarefa.ATIVA;
+	}
 }
