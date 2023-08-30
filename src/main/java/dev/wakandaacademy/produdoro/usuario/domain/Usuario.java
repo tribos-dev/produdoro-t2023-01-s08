@@ -43,7 +43,7 @@ public class Usuario {
 		this.status = StatusUsuario.FOCO;
 		this.configuracao = new ConfiguracaoUsuario(configuracaoPadrao);
 	}
-	public void validaUsuario(UUID idUsuario){
+	public void validaUsuarioAlteraFoco(UUID idUsuario){
 		if(!this.getIdUsuario().equals(idUsuario)){
 			throw APIException.build(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
 		}
