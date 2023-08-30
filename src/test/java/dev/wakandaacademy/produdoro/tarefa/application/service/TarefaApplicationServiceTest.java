@@ -63,33 +63,33 @@ class TarefaApplicationServiceTest {
     @Test
     @DisplayName("Teste Incrementa Pomodoro")
     void incrementaPomodoro_idTarefaETokenValido_deveIncrementarUmPomodoro() {
+    	//DADO
     	Tarefa tarefa = DataHelper.createTarefa();
     	UUID idTarefa = tarefa.getIdTarefa();
     	Usuario usuario = DataHelper.createUsuario();
     	String usuarioEmail = usuario.getEmail();
-    	
+    	//QUANDO
     	when(usuarioRepository.buscaUsuarioPorEmail(anyString())).thenReturn(usuario);
     	when(tarefaRepository.buscaTarefaPorId(any(UUID.class))).thenReturn(Optional.of(tarefa));
     	tarefaApplicationService.incrementaPomodoro(idTarefa, usuarioEmail);
-    	
+    	//ENTÃO
     	verify(tarefaRepository, times(1)).salva(any(Tarefa.class));
     }
     
     @Test
     @DisplayName("Teste Incrementa Pomodoro - Usuario Não é dono da tarefa")
     void incrementaPomodoro_Usuario_Nao_E_Dono_Da_Tarefa() {
+    	//DADO 
     	Tarefa tarefa = DataHelper.createTarefa();
     	UUID idTarefa = tarefa.getIdTarefa();
     	Usuario usuario2 = DataHelper.createUsuarioDiferente();
     	String usuarioEmail = usuario2.getEmail();
-    	
+    	//QUANDO
     	when(usuarioRepository.buscaUsuarioPorEmail(anyString())).thenReturn(usuario2);
     	when(tarefaRepository.buscaTarefaPorId(any(UUID.class))).thenReturn(Optional.of(tarefa));
     	APIException ex = assertThrows(APIException.class, () -> {
     	tarefaApplicationService.incrementaPomodoro(idTarefa, usuarioEmail);
     	});
     	assertEquals("Usuário não é dono da Tarefa solicitada!", ex.getMessage());
-    	
     }
-    
 }

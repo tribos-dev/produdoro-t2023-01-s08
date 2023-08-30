@@ -54,8 +54,6 @@ public class DataHelper {
                 Tarefa.builder().build(),
                 Tarefa.builder().idTarefa(UUID.randomUUID()).descricao("tarefa 4").idUsuario(usuario1).build(),
                 Tarefa.builder().build()
-
         );
     }
-
 }
