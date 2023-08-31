@@ -48,7 +48,6 @@ public class Usuario {
     public void mudaStatusPausaLonga() {
 		this.status = StatusUsuario.PAUSA_LONGA;
     }
-}
 	
 	public void validaUsuario(UUID idUsuario) {
 		log.warn("[inicia] Usuario - validaUsuario");
