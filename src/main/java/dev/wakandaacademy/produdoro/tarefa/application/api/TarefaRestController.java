@@ -1,5 +1,6 @@
 package dev.wakandaacademy.produdoro.tarefa.application.api;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,6 @@ public class TarefaRestController implements TarefaAPI {
 		log.info("[finaliza]  TarefaRestController - postNovaTarefa");
 		return tarefaCriada;
 	}
-
 	@Override
 	public TarefaDetalhadoResponse detalhaTarefa(String token, UUID idTarefa) {
 		log.info("[inicia] TarefaRestController - detalhaTarefa");
@@ -34,7 +34,14 @@ public class TarefaRestController implements TarefaAPI {
 		log.info("[finaliza] TarefaRestController - detalhaTarefa");
 		return new TarefaDetalhadoResponse(tarefa);
 	}
-
+	@Override
+	public List<TarefaDetalhadoResponse> buscaTarefasPorUsuario(String token, UUID idUsuario) {
+		log.info("[inicia] TarefaRestController - buscaTarefasPorUsuario");
+		String emailUsuario = getUsuarioByToken(token);
+		List<Tarefa> tarefas = tarefaService.buscaTarefaPorUsuario(emailUsuario, idUsuario);
+		log.info("[finaliza] TarefaRestController - buscaTarefasPorUsuario");
+		return TarefaDetalhadoResponse.converteList(tarefas);
+	}
 	private String getUsuarioByToken(String token) {
 		log.debug("[token] {}", token);
 		String usuario = tokenService.getUsuarioByBearerToken(token)
@@ -50,5 +57,18 @@ public class TarefaRestController implements TarefaAPI {
 		String usuario = getUsuarioByToken(token);
 		tarefaService.deletaTarefa(usuario, idTarefa);
 		log.info("[finaliza] TarefaRestController - deletaTarefa");
+	public void ativaTarefa(UUID idTarefa, UUID idUsuario, String token) {
+		log.info("[inicia] TarefaRestController - ativaTarefa");
+		String usuarioEmail = getUsuarioByToken(token);
+		tarefaService.ativaTarefa(idTarefa, idUsuario, usuarioEmail);
+		log.info("[finaliza] TarefaRestController - ativaTarefa");
+	}
+	public void incrementaPomodoro(String token, UUID idTarefa) {
+		log.info("[inicia] TarefaRestController - incrementaPomodoro");
+		String usuarioEmail = getUsuarioByToken(token);
+		tarefaService.incrementaPomodoro(idTarefa,usuarioEmail);
+		log.info("[finaliza] TarefaRestController - incrementaPomodoro");
+		
+	}
 }
 }
