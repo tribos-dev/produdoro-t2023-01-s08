@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.validation.constraints.Email;
 
+import dev.wakandaacademy.produdoro.handler.APIException;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,6 +19,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.http.HttpStatus;
+
 import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Builder
@@ -44,6 +47,12 @@ public class Usuario {
 		this.status = StatusUsuario.FOCO;
 		this.configuracao = new ConfiguracaoUsuario(configuracaoPadrao);
 	}
+	public void validaUsuarioAlteraFoco(UUID idUsuario){
+		if(!this.getIdUsuario().equals(idUsuario)){
+			throw APIException.build(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
+		}
+	}
+}
 
     public void mudaStatusPausaLonga() {
 		this.status = StatusUsuario.PAUSA_LONGA;
