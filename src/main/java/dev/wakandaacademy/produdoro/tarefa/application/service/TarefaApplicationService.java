@@ -1,5 +1,10 @@
 package dev.wakandaacademy.produdoro.tarefa.application.service;
 
+import java.util.UUID;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
 import dev.wakandaacademy.produdoro.handler.APIException;
 import dev.wakandaacademy.produdoro.tarefa.application.api.TarefaIdResponse;
 import dev.wakandaacademy.produdoro.tarefa.application.api.TarefaRequest;
@@ -40,6 +45,20 @@ public class TarefaApplicationService implements TarefaService {
         log.info("[finaliza] TarefaApplicationService - detalhaTarefa");
         return tarefa;
     }
+    
+    @Override
+    public void ativaTarefa(UUID idTarefa, UUID idUsuario, String usuarioEmail) {
+    	log.info("[inicia] TarefaApplicationService - ativaTarefa");
+    	Usuario usuario = usuarioRepository.buscaUsuarioPorEmail(usuarioEmail);
+    	Tarefa tarefa =
+    			tarefaRepository.buscaTarefaPorId(idTarefa)
+    			.orElseThrow(() -> APIException.build(HttpStatus.BAD_REQUEST, "id da tarefa invalido!"));
+    	tarefa.pertenceAoUsuario(usuario);
+    	tarefa.ValidaUsuario(idUsuario);
+    	tarefaRepository.desativaTarefa(idUsuario);
+    	tarefa.setStatusAtivacao();
+    	tarefaRepository.salva(tarefa);
+    	log.info("[finaliza] TarefaApplicationService - ativaTarefa");
 	@Override
 	public void incrementaPomodoro(UUID idTarefa, String usuarioEmail) {
 		log.info("[inicia] TarefaApplicationService - incrementaPomodoro");

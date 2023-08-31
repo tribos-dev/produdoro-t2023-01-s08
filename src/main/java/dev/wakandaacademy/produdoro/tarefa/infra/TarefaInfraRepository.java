@@ -1,5 +1,17 @@
 package dev.wakandaacademy.produdoro.tarefa.infra;
 
+import java.util.Optional;
+import java.util.UUID;
+
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Repository;
+
 import dev.wakandaacademy.produdoro.handler.APIException;
 import dev.wakandaacademy.produdoro.tarefa.application.repository.TarefaRepository;
 import dev.wakandaacademy.produdoro.tarefa.domain.Tarefa;
@@ -19,6 +31,7 @@ import java.util.UUID;
 public class TarefaInfraRepository implements TarefaRepository {
 
     private final TarefaSpringMongoDBRepository tarefaSpringMongoDBRepository;
+    private final MongoTemplate mongoTemplate;
 
     @Override
     public Tarefa salva(Tarefa tarefa) {
@@ -38,6 +51,19 @@ public class TarefaInfraRepository implements TarefaRepository {
         log.info("[finaliza] TarefaInfraRepository - buscaTarefaPorId");
         return tarefaPorId;
     }
+<<<<<<< HEAD
+    
+    @Override
+	public void desativaTarefa(UUID idUsuario) {
+		log.info("[inicia] TarefaInfraRepository - desativaTarefa");
+		Query query = new Query();
+		query.addCriteria(Criteria.where("idUsuario").is(idUsuario));
+		Update update = new Update();
+		update.set("ststus ativacao", "INATIVA");
+		mongoTemplate.updateMulti(query, update, Tarefa.class);
+		log.info("[finaliza] TarefaInfraRepository - desativaTarefa");	
+	}
+=======
     @Override
     public List<Tarefa> buscaTarefasPorUsuario(UUID idUsuario) {
         log.info("[inicia] TarefaInfraRepository - buscaTarefasPorUsuario");
@@ -45,4 +71,5 @@ public class TarefaInfraRepository implements TarefaRepository {
         log.info("[finaliza] TarefaInfraRepository - buscaTarefasPorUsuario");
         return tarefas;
     }
+>>>>>>> dev
 }
