@@ -14,6 +14,11 @@ import dev.wakandaacademy.produdoro.usuario.application.repository.UsuarioReposi
 import dev.wakandaacademy.produdoro.usuario.domain.Usuario;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @Log4j2
@@ -21,7 +26,6 @@ import lombok.extern.log4j.Log4j2;
 public class TarefaApplicationService implements TarefaService {
     private final TarefaRepository tarefaRepository;
     private final UsuarioRepository usuarioRepository;
-
 
     @Override
     public TarefaIdResponse criaNovaTarefa(TarefaRequest tarefaRequest) {
@@ -55,5 +59,26 @@ public class TarefaApplicationService implements TarefaService {
     	tarefa.setStatusAtivacao();
     	tarefaRepository.salva(tarefa);
     	log.info("[finaliza] TarefaApplicationService - ativaTarefa");
+	@Override
+	public void incrementaPomodoro(UUID idTarefa, String usuarioEmail) {
+		log.info("[inicia] TarefaApplicationService - incrementaPomodoro");
+		Usuario usuarioPorEmail = usuarioRepository.buscaUsuarioPorEmail(usuarioEmail);
+		Tarefa tarefa =
+				tarefaRepository.buscaTarefaPorId(idTarefa)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Tarefa não encontrada!"));
+		tarefa.pertenceAoUsuario(usuarioPorEmail);
+		tarefa.incrementaContagemPomodoro();
+		tarefaRepository.salva(tarefa);
+		log.info("[finaliza] TarefaApplicationService - incrementaPomodoro");
+	}
+}
+    @Override
+    public List<Tarefa> buscaTarefaPorUsuario(String emailUsuario, UUID idUsuario) {
+        log.info("[inicia] TarefaApplicationService - buscaTarefaPorUsuario");
+        Usuario usuario = usuarioRepository.buscaUsuarioPorEmail(emailUsuario);
+        usuario.validaUsuarioAlteraFoco(idUsuario);
+        List<Tarefa> tarefas = tarefaRepository.buscaTarefasPorUsuario(idUsuario);
+        log.info("[finaliza] TarefaApplicationService - buscaTarefaPorUsuario");
+        return tarefas;
     }
 }
