@@ -4,7 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+<<<<<<< HEAD
+=======
 import static org.mockito.ArgumentMatchers.anyString;
+>>>>>>> dev
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,6 +42,9 @@ class TarefaApplicationServiceTest {
     //	@MockBean
     @Mock
     TarefaRepository tarefaRepository;
+    
+    @Mock
+    UsuarioRepository usuarioRepository;
 
     //	@MockBean
     @Mock
@@ -63,6 +69,20 @@ class TarefaApplicationServiceTest {
     }
     
     @Test
+    public void testDeletaTarefa() {
+        UUID idTarefa = UUID.randomUUID();
+        String usuario = "exemplo@usuario.com";
+        TarefaRequest request = getTarefaRequest();
+
+        Usuario usuarioMock = DataHelper.createUsuario();
+        Tarefa tarefaMock = new Tarefa(request); 
+        
+
+        when(usuarioRepository.buscaUsuarioPorEmail(usuario)).thenReturn(usuarioMock);
+        when(tarefaRepository.buscaTarefaPorId(idTarefa)).thenReturn(Optional.of(tarefaMock));
+
+        tarefaApplicationService.deletaTarefa(usuario, idTarefa);
+        verify(tarefaRepository, times(1)).deleta(tarefaMock);
     @DisplayName("Teste ativa tarefa")
     void ativaTarefaDeveRetornarTarefaAtiva() {
     	UUID idTarefa = DataHelper.createTarefa().getIdTarefa();

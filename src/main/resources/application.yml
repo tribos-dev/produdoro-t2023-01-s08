@@ -1,5 +1,5 @@
 server:
- servlet:
+  servlet:
     context-path: /produdoro/api
     
 spring:

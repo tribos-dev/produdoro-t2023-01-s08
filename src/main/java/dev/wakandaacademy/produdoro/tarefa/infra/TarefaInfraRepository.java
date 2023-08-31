@@ -30,6 +30,37 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TarefaInfraRepository implements TarefaRepository {
 
+<<<<<<< HEAD
+	private final TarefaSpringMongoDBRepository tarefaSpringMongoDBRepository;
+
+	@Override
+	public Tarefa salva(Tarefa tarefa) {
+		log.info("[inicia] TarefaInfraRepository - salva");
+		try {
+			tarefaSpringMongoDBRepository.save(tarefa);
+		} catch (DataIntegrityViolationException e) {
+			throw APIException.build(HttpStatus.BAD_REQUEST, "Tarefa já cadastrada", e);
+		}
+		log.info("[finaliza] TarefaInfraRepository - salva");
+		return tarefa;
+	}
+
+	@Override
+	public Optional<Tarefa> buscaTarefaPorId(UUID idTarefa) {
+		log.info("[inicia] TarefaInfraRepository - buscaTarefaPorId");
+		Optional<Tarefa> tarefaPorId = tarefaSpringMongoDBRepository.findByIdTarefa(idTarefa);
+		log.info("[finaliza] TarefaInfraRepository - buscaTarefaPorId");
+		return tarefaPorId;
+	}
+
+	@Override
+	public void deleta(Tarefa tarefa) {
+		log.info("[inicia] TarefaInfraRepository - deleta");
+		tarefaSpringMongoDBRepository.delete(tarefa);
+		log.info("[inicia] TarefaInfraRepository - deleta");
+	}
+}
+=======
     private final TarefaSpringMongoDBRepository tarefaSpringMongoDBRepository;
     private final MongoTemplate mongoTemplate;
 
@@ -73,3 +104,4 @@ public class TarefaInfraRepository implements TarefaRepository {
     }
 >>>>>>> dev
 }
+>>>>>>> dev
