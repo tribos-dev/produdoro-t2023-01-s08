@@ -56,5 +56,3 @@ public class TarefaInfraRepository implements TarefaRepository {
 		log.info("[finaliza] TarefaInfraRepository - desativaTarefa");	
 	}
 }
-
-
