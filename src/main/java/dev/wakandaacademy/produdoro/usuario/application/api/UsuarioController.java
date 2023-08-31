@@ -1,5 +1,7 @@
 package dev.wakandaacademy.produdoro.usuario.application.api;
 
+import java.util.UUID;
+
 import javax.validation.Valid;
 
 import dev.wakandaacademy.produdoro.config.security.service.TokenService;
@@ -8,11 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.wakandaacademy.produdoro.config.security.service.TokenService;
+import dev.wakandaacademy.produdoro.handler.APIException;
 import dev.wakandaacademy.produdoro.usuario.application.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
-import java.util.UUID;
 
 @RestController
 @Validated
@@ -53,5 +55,13 @@ public class UsuarioController implements UsuarioAPI {
 				build(HttpStatus.UNAUTHORIZED, "Credencial de autenticação não é válida"));
 		log.info("[usuario] {}", usuario);
 		return usuario;
+	@Override
+	public void mudaStatusPausaCurta(String token, UUID idUsuario) {
+		log.info("[inicia] UsuarioController - mudaStatusPausaCurta");
+		log.info("[idUsuario] {}", idUsuario);
+		String usuarioEmail = tokenService.getUsuarioByBearerToken(token)
+				.orElseThrow(() -> APIException.build(HttpStatus.UNAUTHORIZED, token));
+		usuarioAppplicationService.mudaStatusPausaCurta(usuarioEmail, idUsuario);
+		log.info("[finaliza] UsuarioController - mudaStatusPausaCurta");
 	}
 }
