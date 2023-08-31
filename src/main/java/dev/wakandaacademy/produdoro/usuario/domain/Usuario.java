@@ -5,6 +5,10 @@ import java.util.UUID;
 import javax.validation.constraints.Email;
 
 import dev.wakandaacademy.produdoro.handler.APIException;
+<<<<<<< HEAD
+import lombok.extern.log4j.Log4j2;
+=======
+>>>>>>> dev
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -29,6 +33,7 @@ import lombok.extern.log4j.Log4j2;
 @Getter
 @ToString
 @Document(collection = "Usuario")
+@Log4j2
 public class Usuario {
 	@Id
 	private UUID idUsuario;
@@ -47,6 +52,17 @@ public class Usuario {
 		this.status = StatusUsuario.FOCO;
 		this.configuracao = new ConfiguracaoUsuario(configuracaoPadrao);
 	}
+	public void alteraStatusParaFoco(){
+		log.info("Altera status para foco");
+		this.status = StatusUsuario.FOCO;
+	}
+
+    public void validaUsuarioPorId(UUID idUsuario) {
+		if (!this.idUsuario.equals(idUsuario)){
+		log.error("Id não pertence ao usuário");
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Id não pertence ao usuário");
+		}
+    }
 	public void validaUsuarioAlteraFoco(UUID idUsuario){
 		if(!this.getIdUsuario().equals(idUsuario)){
 			throw APIException.build(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
