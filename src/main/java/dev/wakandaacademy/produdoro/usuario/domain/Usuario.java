@@ -5,11 +5,16 @@ import java.util.UUID;
 import javax.validation.constraints.Email;
 
 import dev.wakandaacademy.produdoro.handler.APIException;
+<<<<<<< HEAD
 import lombok.extern.log4j.Log4j2;
+=======
+>>>>>>> dev
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.http.HttpStatus;
 
+import dev.wakandaacademy.produdoro.handler.APIException;
 import dev.wakandaacademy.produdoro.pomodoro.domain.ConfiguracaoPadrao;
 import dev.wakandaacademy.produdoro.usuario.application.api.UsuarioNovoRequest;
 import lombok.AccessLevel;
@@ -20,6 +25,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
+import lombok.extern.log4j.Log4j2;
+@Log4j2
 @Builder
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -56,4 +63,29 @@ public class Usuario {
 			throw APIException.build(HttpStatus.UNAUTHORIZED, "Id não pertence ao usuário");
 		}
     }
+	public void validaUsuarioAlteraFoco(UUID idUsuario){
+		if(!this.getIdUsuario().equals(idUsuario)){
+			throw APIException.build(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
+		}
+	}
+}
+
+    public void mudaStatusPausaLonga() {
+		this.status = StatusUsuario.PAUSA_LONGA;
+    }
+	
+	public void validaUsuario(UUID idUsuario) {
+		log.warn("[inicia] Usuario - validaUsuario");
+		if(!this.idUsuario.equals(idUsuario)) {
+			log.error("Credencial de autenticação {} não é valida", idUsuario);
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Credencial de autenticação não é valida");
+		}
+		log.warn("[finaliza] Usuario - validaUsuario");
+	}
+
+	public void mudaStatusPausaCurta() {
+		log.info("[inicia] Usuario - mudaStatusPausaCurta");
+		this.status = StatusUsuario.PAUSA_CURTA;
+		log.info("[finaliza] Usuario - mudaStatusPausaCurta");
+	}
 }
