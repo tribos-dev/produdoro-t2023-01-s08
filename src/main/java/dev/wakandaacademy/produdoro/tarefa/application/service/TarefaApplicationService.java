@@ -40,6 +40,19 @@ public class TarefaApplicationService implements TarefaService {
         log.info("[finaliza] TarefaApplicationService - detalhaTarefa");
         return tarefa;
     }
+	@Override
+	public void incrementaPomodoro(UUID idTarefa, String usuarioEmail) {
+		log.info("[inicia] TarefaApplicationService - incrementaPomodoro");
+		Usuario usuarioPorEmail = usuarioRepository.buscaUsuarioPorEmail(usuarioEmail);
+		Tarefa tarefa =
+				tarefaRepository.buscaTarefaPorId(idTarefa)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Tarefa não encontrada!"));
+		tarefa.pertenceAoUsuario(usuarioPorEmail);
+		tarefa.incrementaContagemPomodoro();
+		tarefaRepository.salva(tarefa);
+		log.info("[finaliza] TarefaApplicationService - incrementaPomodoro");
+	}
+}
     @Override
     public List<Tarefa> buscaTarefaPorUsuario(String emailUsuario, UUID idUsuario) {
         log.info("[inicia] TarefaApplicationService - buscaTarefaPorUsuario");
