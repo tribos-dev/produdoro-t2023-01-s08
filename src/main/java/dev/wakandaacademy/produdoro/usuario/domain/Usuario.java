@@ -4,11 +4,6 @@ import java.util.UUID;
 
 import javax.validation.constraints.Email;
 
-import dev.wakandaacademy.produdoro.handler.APIException;
-<<<<<<< HEAD
-import lombok.extern.log4j.Log4j2;
-=======
->>>>>>> dev
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,9 +18,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.http.HttpStatus;
-
 import lombok.extern.log4j.Log4j2;
+
 @Log4j2
 @Builder
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -33,7 +27,7 @@ import lombok.extern.log4j.Log4j2;
 @Getter
 @ToString
 @Document(collection = "Usuario")
-@Log4j2
+
 public class Usuario {
 	@Id
 	private UUID idUsuario;
@@ -68,7 +62,6 @@ public class Usuario {
 			throw APIException.build(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
 		}
 	}
-}
 
     public void mudaStatusPausaLonga() {
 		this.status = StatusUsuario.PAUSA_LONGA;

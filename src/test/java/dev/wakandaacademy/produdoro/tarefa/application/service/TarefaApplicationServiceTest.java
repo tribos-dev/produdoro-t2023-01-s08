@@ -39,7 +39,7 @@ class TarefaApplicationServiceTest {
     //	@MockBean
     @Mock
     TarefaRepository tarefaRepository;
-
+    
     //	@MockBean
     @Mock
     UsuarioRepository usuarioRepository;
@@ -63,6 +63,25 @@ class TarefaApplicationServiceTest {
     }
     
     @Test
+    public void testDeletaTarefa() {
+        UUID idTarefa = UUID.randomUUID();
+        String usuario = "exemplo@usuario.com";
+
+        Usuario usuarioMock = DataHelper.createUsuario();
+        Tarefa tarefaMock = DataHelper.createTarefa(); // Crie a tarefa mockada corretamente
+
+        // Simule a busca da tarefa por ID e do usuário por e-mail
+        when(usuarioRepository.buscaUsuarioPorEmail(usuario)).thenReturn(usuarioMock);
+        when(tarefaRepository.buscaTarefaPorId(idTarefa)).thenReturn(Optional.of(tarefaMock));
+
+        // Chame o método que você está testando
+        tarefaApplicationService.deletaTarefa(usuario, idTarefa);
+
+        // Verifique se o método deleta foi chamado com a tarefa mockada
+        verify(tarefaRepository, times(1)).deleta(tarefaMock);
+    }
+    
+    @Test    
     @DisplayName("Teste ativa tarefa")
     void ativaTarefaDeveRetornarTarefaAtiva() {
     	UUID idTarefa = DataHelper.createTarefa().getIdTarefa();
@@ -74,6 +93,9 @@ class TarefaApplicationServiceTest {
     	tarefaApplicationService.ativaTarefa(idTarefa, idUsuario, email);
     	verify(tarefaRepository, times(1)).buscaTarefaPorId(idTarefa);
     	assertEquals(StatusAtivacaoTarefa.ATIVA, retorno.getStatusAtivacao());
+    }
+    
+    @Test	
     @DisplayName("Teste Incrementa Pomodoro")
     void incrementaPomodoro_idTarefaETokenValido_deveIncrementarUmPomodoro() {
     	//DADO
