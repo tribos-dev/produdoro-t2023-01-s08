@@ -33,6 +33,7 @@ public class UsuarioApplicationService implements UsuarioService {
 		log.info("[finaliza] UsuarioApplicationService - criaNovoUsuario");
 		return new UsuarioCriadoResponse(usuario);
 	}
+	
 	@Override
 	public UsuarioCriadoResponse buscaUsuarioPorId(UUID idUsuario) {
 		log.info("[inicia] UsuarioApplicationService - buscaUsuarioPorId");
@@ -40,6 +41,7 @@ public class UsuarioApplicationService implements UsuarioService {
 		log.info("[finaliza] UsuarioApplicationService - buscaUsuarioPorId");
 		return new UsuarioCriadoResponse(usuario);
 	}
+	
 	@Override
 	public void alteraStatusParaFoco(String usuarioEmail, UUID idUsuario) {
 		log.info("[inicia] UsuarioApplicationService - alteraStatusParaFoco");
@@ -59,7 +61,6 @@ public class UsuarioApplicationService implements UsuarioService {
 		log.info("[finaliza] UsuarioApplicationService - pausaLonga");
 	}
 
-
 	@Override
 	public void mudaStatusPausaCurta(String usuarioEmail, UUID idUsuario) {
 		log.info("[inicia] UsuarioApplicationService - mudaStatusPausaCurta");
@@ -69,6 +70,4 @@ public class UsuarioApplicationService implements UsuarioService {
 		usuarioRepository.salva(usuario);
 		log.info("[finaliza] UsuarioApplicationService - mudaStatusPausaCurta");
 	}
-
-
 }

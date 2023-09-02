@@ -1,12 +1,14 @@
 package dev.wakandaacademy.produdoro.usuario.application.service;
 
-import dev.wakandaacademy.produdoro.DataHelper;
-import dev.wakandaacademy.produdoro.handler.APIException;
-import dev.wakandaacademy.produdoro.usuario.application.repository.UsuarioRepository;
-import dev.wakandaacademy.produdoro.usuario.domain.StatusUsuario;
-import dev.wakandaacademy.produdoro.usuario.domain.Usuario;
-import dev.wakandaacademy.produdoro.usuario.application.repository.UsuarioRepository;
-import dev.wakandaacademy.produdoro.usuario.domain.Usuario;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.UUID;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,15 +16,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import dev.wakandaacademy.produdoro.DataHelper;
+import dev.wakandaacademy.produdoro.handler.APIException;
+import dev.wakandaacademy.produdoro.usuario.application.repository.UsuarioRepository;
+import dev.wakandaacademy.produdoro.usuario.domain.Usuario;
 
 @ExtendWith(MockitoExtension.class)
 class UsuarioApplicationServiceTest {
@@ -33,6 +30,7 @@ class UsuarioApplicationServiceTest {
     private UsuarioRepository usuarioRepository;
     private UUID idUsuario = DataHelper.createUsuario().getIdUsuario();
     private String email = DataHelper.createUsuario().getEmail();
+    
     @Test
     void alteraStatusParaFocoSucesso(){
 
@@ -48,12 +46,8 @@ class UsuarioApplicationServiceTest {
         when(usuarioRepository.buscaUsuarioPorEmail(anyString())).thenReturn(DataHelper.createUsuario());
 
        assertThrows(APIException.class,()-> usuarioApplicationService.alteraStatusParaFoco(email, UUID.randomUUID()));
-
-    @Mock
-    private UsuarioRepository usuarioRepository;
-
-    @InjectMocks
-    private UsuarioApplicationService usuarioApplicationService;
+    }   
+ 
 
     @Test
     @DisplayName("Teste unitário pausa longa")

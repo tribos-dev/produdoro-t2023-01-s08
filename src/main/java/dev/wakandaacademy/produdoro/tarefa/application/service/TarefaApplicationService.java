@@ -1,5 +1,6 @@
 package dev.wakandaacademy.produdoro.tarefa.application.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -14,11 +15,6 @@ import dev.wakandaacademy.produdoro.usuario.application.repository.UsuarioReposi
 import dev.wakandaacademy.produdoro.usuario.domain.Usuario;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.UUID;
 
 @Service
 @Log4j2
@@ -54,25 +50,7 @@ public class TarefaApplicationService implements TarefaService {
 		log.info("[finaliza] TarefaApplicationService - deletaTarefa");
 	}
     @Override
-    public TarefaIdResponse criaNovaTarefa(TarefaRequest tarefaRequest) {
-        log.info("[inicia] TarefaApplicationService - criaNovaTarefa");
-        Tarefa tarefaCriada = tarefaRepository.salva(new Tarefa(tarefaRequest));
-        log.info("[finaliza] TarefaApplicationService - criaNovaTarefa");
-        return TarefaIdResponse.builder().idTarefa(tarefaCriada.getIdTarefa()).build();
-    }
-    @Override
-    public Tarefa detalhaTarefa(String usuario, UUID idTarefa) {
-        log.info("[inicia] TarefaApplicationService - detalhaTarefa");
-        Usuario usuarioPorEmail = usuarioRepository.buscaUsuarioPorEmail(usuario);
-        log.info("[usuarioPorEmail] {}", usuarioPorEmail);
-        Tarefa tarefa =
-                tarefaRepository.buscaTarefaPorId(idTarefa).orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Tarefa não encontrada!"));
-        tarefa.pertenceAoUsuario(usuarioPorEmail);
-        log.info("[finaliza] TarefaApplicationService - detalhaTarefa");
-        return tarefa;
-    }
     
-    @Override
     public void ativaTarefa(UUID idTarefa, UUID idUsuario, String usuarioEmail) {
     	log.info("[inicia] TarefaApplicationService - ativaTarefa");
     	Usuario usuario = usuarioRepository.buscaUsuarioPorEmail(usuarioEmail);
@@ -85,6 +63,8 @@ public class TarefaApplicationService implements TarefaService {
     	tarefa.setStatusAtivacao();
     	tarefaRepository.salva(tarefa);
     	log.info("[finaliza] TarefaApplicationService - ativaTarefa");
+    }
+    	
 	@Override
 	public void incrementaPomodoro(UUID idTarefa, String usuarioEmail) {
 		log.info("[inicia] TarefaApplicationService - incrementaPomodoro");
@@ -97,7 +77,7 @@ public class TarefaApplicationService implements TarefaService {
 		tarefaRepository.salva(tarefa);
 		log.info("[finaliza] TarefaApplicationService - incrementaPomodoro");
 	}
-}
+
     @Override
     public List<Tarefa> buscaTarefaPorUsuario(String emailUsuario, UUID idUsuario) {
         log.info("[inicia] TarefaApplicationService - buscaTarefaPorUsuario");

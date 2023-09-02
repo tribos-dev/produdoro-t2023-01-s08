@@ -4,10 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-<<<<<<< HEAD
-=======
 import static org.mockito.ArgumentMatchers.anyString;
->>>>>>> dev
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,9 +40,6 @@ class TarefaApplicationServiceTest {
     @Mock
     TarefaRepository tarefaRepository;
     
-    @Mock
-    UsuarioRepository usuarioRepository;
-
     //	@MockBean
     @Mock
     UsuarioRepository usuarioRepository;
@@ -62,7 +56,6 @@ class TarefaApplicationServiceTest {
         assertEquals(UUID.class, response.getIdTarefa().getClass());
     }
 
-
     public TarefaRequest getTarefaRequest() {
         TarefaRequest request = new TarefaRequest("tarefa 1", UUID.randomUUID(), null, null, 0);
         return request;
@@ -72,17 +65,21 @@ class TarefaApplicationServiceTest {
     public void testDeletaTarefa() {
         UUID idTarefa = UUID.randomUUID();
         String usuario = "exemplo@usuario.com";
-        TarefaRequest request = getTarefaRequest();
 
         Usuario usuarioMock = DataHelper.createUsuario();
-        Tarefa tarefaMock = new Tarefa(request); 
-        
+        Tarefa tarefaMock = DataHelper.createTarefa(); // Crie a tarefa mockada corretamente
 
+        // Simule a busca da tarefa por ID e do usuário por e-mail
         when(usuarioRepository.buscaUsuarioPorEmail(usuario)).thenReturn(usuarioMock);
         when(tarefaRepository.buscaTarefaPorId(idTarefa)).thenReturn(Optional.of(tarefaMock));
 
+        // Chame o método que você está testando
         tarefaApplicationService.deletaTarefa(usuario, idTarefa);
+
+        // Verifique se o método deleta foi chamado com a tariff mockada
         verify(tarefaRepository, times(1)).deleta(tarefaMock);
+    }
+        
     @DisplayName("Teste ativa tarefa")
     void ativaTarefaDeveRetornarTarefaAtiva() {
     	UUID idTarefa = DataHelper.createTarefa().getIdTarefa();
@@ -94,6 +91,9 @@ class TarefaApplicationServiceTest {
     	tarefaApplicationService.ativaTarefa(idTarefa, idUsuario, email);
     	verify(tarefaRepository, times(1)).buscaTarefaPorId(idTarefa);
     	assertEquals(StatusAtivacaoTarefa.ATIVA, retorno.getStatusAtivacao());
+    }
+    
+    @Test	
     @DisplayName("Teste Incrementa Pomodoro")
     void incrementaPomodoro_idTarefaETokenValido_deveIncrementarUmPomodoro() {
     	//DADO
