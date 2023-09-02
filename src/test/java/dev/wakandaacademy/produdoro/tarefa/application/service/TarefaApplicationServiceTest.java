@@ -56,7 +56,6 @@ class TarefaApplicationServiceTest {
         assertEquals(UUID.class, response.getIdTarefa().getClass());
     }
 
-
     public TarefaRequest getTarefaRequest() {
         TarefaRequest request = new TarefaRequest("tarefa 1", UUID.randomUUID(), null, null, 0);
         return request;
@@ -77,11 +76,10 @@ class TarefaApplicationServiceTest {
         // Chame o método que você está testando
         tarefaApplicationService.deletaTarefa(usuario, idTarefa);
 
-        // Verifique se o método deleta foi chamado com a tarefa mockada
+        // Verifique se o método deleta foi chamado com a tariff mockada
         verify(tarefaRepository, times(1)).deleta(tarefaMock);
     }
-    
-    @Test    
+        
     @DisplayName("Teste ativa tarefa")
     void ativaTarefaDeveRetornarTarefaAtiva() {
     	UUID idTarefa = DataHelper.createTarefa().getIdTarefa();

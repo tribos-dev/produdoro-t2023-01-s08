@@ -1,7 +1,7 @@
 # Wakanda Academy.Dev
-Este Projeto foi desenvolvido para aprimorar seus conhecimentos adiquiridos durante a sua jornada no Wakanda Academy.
+Este Projeto foi desenvolvido para aprimorar seus conhecimentos adquiridos durante a sua jornada no Wakanda Academy.
 
-Você irá praticar cenários reais do contidiano de um Programador. 
+Você irá praticar cenários reais do cotidiano de um Programador. 
 
 ## Conecte-se comigo
 

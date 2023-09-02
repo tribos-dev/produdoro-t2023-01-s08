@@ -23,8 +23,10 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 public class TarefaInfraRepository implements TarefaRepository {
 
+
 	private final TarefaSpringMongoDBRepository tarefaSpringMongoDBRepository;
-	    private final MongoTemplate mongoTemplate;
+	private final MongoTemplate mongoTemplate;
+
 	@Override
 	public Tarefa salva(Tarefa tarefa) {
 		log.info("[inicia] TarefaInfraRepository - salva");
@@ -62,6 +64,7 @@ public class TarefaInfraRepository implements TarefaRepository {
 		mongoTemplate.updateMulti(query, update, Tarefa.class);
 		log.info("[finaliza] TarefaInfraRepository - desativaTarefa");	
 	}
+    
     @Override
     public List<Tarefa> buscaTarefasPorUsuario(UUID idUsuario) {
         log.info("[inicia] TarefaInfraRepository - buscaTarefasPorUsuario");
@@ -70,3 +73,4 @@ public class TarefaInfraRepository implements TarefaRepository {
         return tarefas;
     }
 }
+
